@@ -1,6 +1,6 @@
-close all; clear all;
-directory = '../data/Jile_Hu/first/';
-filename = 'IMG_0002.JPG';
+clear all;
+directory = './';
+filename = 'raw.JPG';
 im = imread([directory, filename]);
 resize_ratio = 0.2;
 im = imresize(im, resize_ratio);
@@ -31,9 +31,12 @@ num_samples = 5;
 %% initial
 tmp = im;
 add = 0;
-im = zeros(size(tmp,1), size(tmp,2) + add*2, 3);
-im(:,add+1:size(tmp,2)+add,:) = tmp;
-x = x + add;
+% im = zeros(size(tmp,1), size(tmp,2) + add*2, 3);
+% im(:,add+1:size(tmp,2)+add,:) = tmp;
+im = zeros(size(tmp,1) + add*2, size(tmp,2), 3);
+im(add+1:size(tmp,1)+add,:,:) = tmp;
+% x = x + add;
+y = y + add;
 
 figure; imshow(im);
 hold on
@@ -41,7 +44,12 @@ im1_pts = samples(x, y, num_samples);
 plot(im1_pts(:,1), im1_pts(:,2), '*b');
 hold off
 
-tall_ratio = 1.1;
+mask = maskOnSamples(im1_pts, size(im));
+figure; imshow(mask);
+bw = activecontour(im,mask);
+figure; imshow(bw);
+
+tall_ratio = 1.2;
 figure; imshow(im);
 hold on
 im2_pts = samples(x, y, num_samples, 'tall', tall_ratio);
@@ -49,4 +57,5 @@ plot(im2_pts(:,1), im2_pts(:,2), '*b');
 hold off
 
 warped_im = warp_trig(im, im1_pts, im2_pts, 1);
-figure; imshow(uint8(warped_im));
+% figure; imshow(uint8(warped_im(:,1+add:size(tmp,2)+add,:)));
+figure; imshow(uint8(warped_im(1+add:size(tmp,1)+add,:,:)));
