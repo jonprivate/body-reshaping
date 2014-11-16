@@ -1,4 +1,4 @@
-close all;
+close all; clear all;
 Irgb=imread('00000000.jpg');
 [m,n,c]=size(Irgb);
 
@@ -32,21 +32,21 @@ for i=1:m
     end
 end
 
-Idot = zeros(m,n);
-for i = 2:m-1
-    for j = 2:n-1
-        if Idisp(i,j) ~= Idisp(i-1,j) || Idisp(i,j) ~= Idisp(i+1,j) || Idisp(i,j) ~= Idisp(i,j-1) || Idisp(i,j) ~= Idisp(i,j+1)
-            C = unique(Idisp(i-1:i+1, j-1:j+1));
-            if numel(C) >= 3
-                Idot(i,j) = 1;
-            end
-        end
-    end
-end
-Idot = bwmorph(Idot, 'shrink', Inf);
+% Idot = zeros(m,n);
+% for i = 2:m-1
+%     for j = 2:n-1
+%         if Idisp(i,j) ~= Idisp(i-1,j) || Idisp(i,j) ~= Idisp(i+1,j) || Idisp(i,j) ~= Idisp(i,j-1) || Idisp(i,j) ~= Idisp(i,j+1)
+%             C = unique(Idisp(i-1:i+1, j-1:j+1));
+%             if numel(C) >= 3
+%                 Idot(i,j) = 1;
+%             end
+%         end
+%     end
+% end
+% Idot = bwmorph(Idot, 'shrink', Inf);
 
-figure;
-imshow(Idot);
+% figure;
+% imshow(Idot);
 figure;
 imshow(mat2gray(Isp));
 figure;
